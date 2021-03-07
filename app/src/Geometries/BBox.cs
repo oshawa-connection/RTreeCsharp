@@ -1,0 +1,100 @@
+using System;
+
+public class BBox {
+    public float minX {get;set;}
+    public float minY {get;set;}
+    public float maxX {get;set;}
+    public float maxY {get;set;}
+
+    // What if all values are 0?
+    public void enlargen(Geometry geometry) {
+        var otherBBox = geometry.calculateBoundingBox();
+        throw new NotImplementedException("Check situation with 0s!");
+        if (this.maxX == 0 && this.maxY == 0 && this.minX ==0 && this.minY == 0) {
+            this.minY = otherBBox.minY;
+        }
+
+        if (otherBBox.minX < this.minX) {
+            this.minX = otherBBox.minX;
+        }
+
+        if (otherBBox.maxX > this.maxX) {
+            this.maxX = otherBBox.maxX;
+        }
+
+        if (otherBBox.maxY > this.maxY) {
+            this.maxY = otherBBox.maxY;
+        }
+
+        if (otherBBox.minY < this.minY) {
+            this.minY = otherBBox.minY;
+        }
+    }
+
+    public bool fullyContains(Geometry geometry) {
+        var bbox = geometry.calculateBoundingBox();
+        return this.fullyContains(bbox);
+    }
+
+    public bool fullyContains(BBox otherBbox) {
+        if (this.minX > otherBbox.minX) return false;
+        if (this.minY > otherBbox.minY) return false;
+        if (this.maxX < otherBbox.maxX) return false;
+        if (this.maxY < otherBbox.maxY) return false;
+        
+        return true;
+    }
+
+    public float calculateArea() {
+        return (maxX - minX) * (maxY - minY);
+    }
+    ///<summary> 
+    ///calculates the change in area needed to cover a new geometry
+    ///</summary>
+    public float calculateEnlargenedArea(Geometry geometry) {
+        var otherBBox = geometry.calculateBoundingBox();
+        var currentArea = this.calculateArea();
+        //TODO: call enlargen on otherBBox.
+        if (otherBBox.minX > this.minX) {
+            otherBBox.minX = this.minX;
+        }
+
+        if (otherBBox.maxX < this.maxX) {
+            otherBBox.maxX = this.maxX;
+        }
+
+        if (otherBBox.maxY < this.maxY) {
+            otherBBox.maxY = this.maxY;
+        }
+
+        if (otherBBox.minY > this.minY) {
+            otherBBox.minY = this.minY;
+        }
+
+        
+
+        return otherBBox.calculateArea() - currentArea;
+    }
+
+    public (BBox,BBox) split() {
+        var leftbbox = new BBox();
+        var rightbbox = new BBox();
+
+
+        float halfX = (this.maxX - this.minX)/2.0f;
+        // float halfY = (this.maxY - this.minY)/2.0f;
+
+
+        leftbbox.minX = minX;
+        leftbbox.maxX = halfX;
+        leftbbox.maxY = maxY;
+        leftbbox.minY = minY;
+
+        rightbbox.minX = halfX;
+        rightbbox.maxX = maxX;
+        rightbbox.maxY = maxY;
+        rightbbox.minY = minY;
+
+        return (leftbbox,rightbbox);
+    }
+}
