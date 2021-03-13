@@ -19,7 +19,7 @@ public class RTree<T> where T : Geometry {
 
     public void Insert(T geometry) {
        var foundNode = this.Find(geometry, true);
-       if (foundNode is not null)
+       if (foundNode != null)
        {
 
        }

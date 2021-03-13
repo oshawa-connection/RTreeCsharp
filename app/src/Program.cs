@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace app
 {
@@ -6,7 +7,10 @@ namespace app
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            new RTree<Point>();
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
     }
 }
