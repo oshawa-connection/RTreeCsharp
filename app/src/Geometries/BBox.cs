@@ -10,19 +10,19 @@ public class BBox {
     public void enlargen(Geometry geometry) {
         var otherBBox = geometry.calculateBoundingBox();
         
-        if (Math.Abs(otherBBox.minX) < Math.Abs(this.minX)) {
+        if (otherBBox.minX < this.minX) {
             this.minX = otherBBox.minX;
         }
 
-        if (Math.Abs(otherBBox.maxX) > Math.Abs(this.maxX)) {
+        if (otherBBox.maxX > this.maxX) {
             this.maxX = otherBBox.maxX;
         }
 
-        if (Math.Abs(otherBBox.maxY) > Math.Abs(this.maxY)) {
+        if (otherBBox.maxY > this.maxY) {
             this.maxY = otherBBox.maxY;
         }
 
-        if (Math.Abs(otherBBox.minY) < Math.Abs(this.minY)) {
+        if (otherBBox.minY < this.minY) {
             this.minY = otherBBox.minY;
         }
     }
