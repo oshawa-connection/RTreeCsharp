@@ -14,7 +14,7 @@ public class Node<T> where T : Geometry {
         return this.childNodes.Count == 0;    
     }
 
-    public Node<T> nextNode(T geometry) {
+    public Node<T> NextNode(T geometry) {
         if(this.isLeaf()) {
             return null;
         }
@@ -81,13 +81,11 @@ public class Node<T> where T : Geometry {
                 rightNode.addGeometry(geom);
             }
         }
-        
-        
-        
-        //Very last
+
+        this.childNodes.Add(leftNode);
+        this.childNodes.Add(rightNode);
+
         this.geometries.Clear();
-
-
     }
 
     public Node(string id = null, BBox bbox = null) {
