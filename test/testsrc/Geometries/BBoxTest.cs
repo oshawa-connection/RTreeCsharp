@@ -57,5 +57,20 @@ namespace test
             Assert.AreEqual(left.maxX, (3.0f- 1.0f)/ 2.0f);
             
         }
+
+
+        [TestMethod]
+        public void TestEnlargen()
+        {
+            BBox bbox = new BBox();
+            var newPoint = new Point(1,1);
+            bbox.enlargen(newPoint);
+            Assert.AreEqual(bbox.calculateArea(),1.0f);
+
+
+            var anotherPoint = new Point(-3,-3);
+            bbox.enlargen(anotherPoint);
+            Assert.AreEqual(bbox.calculateArea(),16.0f);
+        }
     }
 }

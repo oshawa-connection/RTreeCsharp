@@ -9,24 +9,20 @@ public class BBox {
     // What if all values are 0?
     public void enlargen(Geometry geometry) {
         var otherBBox = geometry.calculateBoundingBox();
-        throw new NotImplementedException("Check situation with 0s!");
-        if (this.maxX == 0 && this.maxY == 0 && this.minX ==0 && this.minY == 0) {
-            this.minY = otherBBox.minY;
-        }
-
-        if (otherBBox.minX < this.minX) {
+        
+        if (Math.Abs(otherBBox.minX) < Math.Abs(this.minX)) {
             this.minX = otherBBox.minX;
         }
 
-        if (otherBBox.maxX > this.maxX) {
+        if (Math.Abs(otherBBox.maxX) > Math.Abs(this.maxX)) {
             this.maxX = otherBBox.maxX;
         }
 
-        if (otherBBox.maxY > this.maxY) {
+        if (Math.Abs(otherBBox.maxY) > Math.Abs(this.maxY)) {
             this.maxY = otherBBox.maxY;
         }
 
-        if (otherBBox.minY < this.minY) {
+        if (Math.Abs(otherBBox.minY) < Math.Abs(this.minY)) {
             this.minY = otherBBox.minY;
         }
     }
@@ -48,6 +44,7 @@ public class BBox {
     public float calculateArea() {
         return (maxX - minX) * (maxY - minY);
     }
+    
     ///<summary> 
     ///calculates the change in area needed to cover a new geometry
     ///</summary>

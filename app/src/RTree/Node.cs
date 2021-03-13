@@ -52,7 +52,6 @@ public class Node<T> where T : Geometry {
     }
 
     public void addGeometry(T geometry) {
-        // Check will fit in bbox
         this.geometries.Add(geometry);
     }
 
@@ -64,10 +63,31 @@ public class Node<T> where T : Geometry {
         this.childNodes.Add(node);
     }
 
-    public (Node<T>, Node<T>,Node<T>) splitNode() {
-        var x = new Node<T>();
-        var y = new Node<T>();
-        return (x, y,x);
+    public void splitNode() {
+        var leftNode = new Node<T>();
+        var rightNode = new Node<T>();
+        //TODO: should choose new halfX or halfY in order to split equally the number of points in each node
+        
+        (BBox leftbbox, BBox rightbbox) = this.bbox.split();
+        leftNode.bbox = leftbbox;
+        rightNode.bbox = rightbbox;
+        
+        foreach(var geom in this.geometries) 
+        {
+            if (leftbbox.fullyContains(geom))
+            {
+                leftNode.addGeometry(geom);
+            } else {
+                rightNode.addGeometry(geom);
+            }
+        }
+        
+        
+        
+        //Very last
+        this.geometries.Clear();
+
+
     }
 
     public Node(string id = null, BBox bbox = null) {

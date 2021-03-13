@@ -24,12 +24,12 @@ public class RTree<T> where T : Geometry {
        }
 
        if (foundNode.numberOfGeometries() >= this.maxPointsPerNode) {
-           (Node<T> x, Node<T> y,Node<T> choice) = foundNode.splitNode();
-           choice.addGeometry(geometry);
+           foundNode.splitNode();
+           this.insert(geometry);
+           
+       } else {
+           foundNode.addGeometry(geometry);
        }
-
-    
-       
     }
 
     public RTree() {
