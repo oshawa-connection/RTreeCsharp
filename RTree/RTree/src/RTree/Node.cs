@@ -1,13 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 public class Node<T> where T : Geometry {
+    [JsonProperty]
     public string id {get;set;}
-
+    /// <summary>
+    /// Depth in the RTree
+    /// </summary>
+    [JsonProperty]
+    public readonly int depth;
+    [JsonProperty]
     private BBox bbox {get;set;}
-
+    [JsonProperty]
     private List<Node<T>> childNodes {get;set;}
+    [JsonProperty]
     private List<T> geometries {get;set;}
 
     public bool isLeaf() {
@@ -64,8 +72,8 @@ public class Node<T> where T : Geometry {
     }
 
     public void splitNode() {
-        var leftNode = new Node<T>();
-        var rightNode = new Node<T>();
+        var leftNode = new Node<T>(this.depth + 1);
+        var rightNode = new Node<T>(this.depth + 1);
         //TODO: should choose new halfX or halfY in order to split equally the number of points in each node
         
         (BBox leftbbox, BBox rightbbox) = this.bbox.split();
@@ -88,7 +96,10 @@ public class Node<T> where T : Geometry {
         this.geometries.Clear();
     }
 
-    public Node(string id = null, BBox bbox = null) {
+    public Node(int depth,string id = null, BBox bbox = null) {
+
+        this.depth = depth;
+        
         if (id == null) {
             id = Guid.NewGuid().ToString();
         }
@@ -102,7 +113,6 @@ public class Node<T> where T : Geometry {
             this.bbox = bbox;
         }
         
+
     }
-
-
 }

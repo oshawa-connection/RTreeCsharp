@@ -78,7 +78,7 @@ public class BBox {
         var rightbbox = new BBox();
 
 
-        float halfX = (this.maxX - this.minX)/2.0f;
+        float halfX = (this.maxX - this.minX)/2.0f  + this.minX;
         // float halfY = (this.maxY - this.minY)/2.0f;
 
 

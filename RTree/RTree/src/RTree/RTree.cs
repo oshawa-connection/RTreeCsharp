@@ -1,9 +1,13 @@
+using Newtonsoft.Json;
 using System;
 
 
 public class RTree<T> where T : Geometry {
+    [JsonProperty]
     private Node<T> rootNode {get;set;}
+    [JsonProperty]
     public readonly int maxPointsPerNode;
+
     public Node<T> Find(T geometry, bool insert = false) {
         
         Node<T> currentNode = null;
@@ -17,34 +21,38 @@ public class RTree<T> where T : Geometry {
         return currentNode;
     }
 
+    private bool recursive = false;
+
     public void Insert(T geometry) {
        var foundNode = this.Find(geometry, true);
-       if (foundNode != null)
-       {
 
-       }
-       
-
+      
        if (foundNode.containsGeometry(geometry)) {
            return;
        }
 
        if (foundNode.numberOfGeometries() >= this.maxPointsPerNode) {
-           foundNode.splitNode();
+            if (this.recursive)
+            {
+                throw new Exception("Entering infinite loop, exiting");
+            }
+            foundNode.splitNode();
+            this.recursive = true;
            this.Insert(geometry);
            
        } else {
            foundNode.addGeometry(geometry);
        }
+        this.recursive = false;
     }
 
     public RTree() {
-        this.rootNode = new Node<T>();
+        this.rootNode = new Node<T>(0);
 
-        this.rootNode.addChildNode(new Node<T>());
-        this.rootNode.addChildNode(new Node<T>());
+        this.rootNode.addChildNode(new Node<T>(1));
+        this.rootNode.addChildNode(new Node<T>(1));
 
-        this.maxPointsPerNode = 5;
+        this.maxPointsPerNode = 100;
     }
 
 }
