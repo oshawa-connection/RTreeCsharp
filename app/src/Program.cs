@@ -11,9 +11,9 @@ namespace app
         {
 
 
-            SpeedTest(5000,true);
-            SpeedTest(10000);
-            SpeedTest(20000);
+            SpeedTest(100,true);
+            //SpeedTest(10000);
+            //SpeedTest(20000);
         }
 
 
@@ -29,6 +29,7 @@ namespace app
             float y = 10.0f;
             for (var x = 0; x < maxNodes; x++)
             {
+                y = rand.Next(0, 10);
                 var newPoint = new Point(x, y);
                 rTree.Insert(newPoint);
                 points[x] = newPoint;

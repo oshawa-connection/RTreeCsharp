@@ -52,7 +52,7 @@ public class RTree<T> where T : Geometry {
         this.rootNode.addChildNode(new Node<T>(1));
         this.rootNode.addChildNode(new Node<T>(1));
 
-        this.maxPointsPerNode = 100;
+        this.maxPointsPerNode = 5;
     }
 
 }
