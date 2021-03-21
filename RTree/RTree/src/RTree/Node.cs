@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-public class Node<T> where T : Geometry {
+public class Node<T> where T : Geometry, new()
+{
     [JsonProperty]
     public string id {get;set;}
     /// <summary>
@@ -19,7 +20,7 @@ public class Node<T> where T : Geometry {
     private List<T> geometries {get;set;}
 
     public bool isLeaf() {
-        return this.childNodes.Count == 0;    
+        return this.childNodes.Count == 0;
     }
 
     public Node<T> NextNode(T geometry) {
@@ -59,6 +60,26 @@ public class Node<T> where T : Geometry {
         return this.geometries.Contains(geometry);
     }
 
+    public bool encapsulatesGeometry(T geometry) {
+        return this.bbox.fullyContains(geometry);
+    }
+
+    public List<Node<T>> findChildrenThatIntersect(T geometry) {
+
+        var foundNodes = new List<Node<T>>();
+        
+        foreach(var child in this.childNodes) {
+
+            if (child.encapsulatesGeometry(geometry)) {
+                foundNodes.Add(child);
+            }
+
+            
+        }
+
+        return foundNodes;
+    }
+
     public void addGeometry(T geometry) {
         this.geometries.Add(geometry);
     }
@@ -94,6 +115,17 @@ public class Node<T> where T : Geometry {
         this.childNodes.Add(rightNode);
 
         this.geometries.Clear();
+    }
+
+    public T nearestNeighbour(T otherGeometry) {
+        float minDistance = float.PositiveInfinity;
+        T bestGeometry = new T();
+        foreach(var geometry in this.geometries) {
+            if (geometry != otherGeometry) {
+                 // Generate all combinations    
+            }
+        }
+        return bestGeometry;
     }
 
     public Node(int depth,string id = null, BBox bbox = null) {

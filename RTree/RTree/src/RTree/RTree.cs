@@ -1,8 +1,10 @@
 using Newtonsoft.Json;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
-
-public class RTree<T> where T : Geometry {
+public class RTree<T> where T : Geometry, new()
+{
     [JsonProperty]
     private Node<T> rootNode {get;set;}
     [JsonProperty]
@@ -20,6 +22,52 @@ public class RTree<T> where T : Geometry {
         
         return currentNode;
     }
+
+    private void FindAllLeaves(T geometry, Node<T> currentNode, ref List<Node<T>> foundLeaves)
+    {
+        var foundNodes = currentNode.findChildrenThatIntersect(geometry);
+
+        if (foundNodes == null)
+        {
+            return;
+        }
+
+        foundLeaves =foundLeaves.Concat(foundNodes.Where(d => d.isLeaf())).ToList();
+
+        if (foundNodes.All(d => d.isLeaf()))
+        {
+            return;
+        }
+
+
+        var foundNonLeaves = foundNodes.Where(d => !d.isLeaf());
+
+        foreach(var search in foundNonLeaves)
+        {
+            this.FindAllLeaves(geometry,search, ref foundLeaves);
+        }
+
+        
+    }
+
+    public T NearestNeighbour(T geometry)
+    {
+        var foundLeaves = new List<Node<T>>();
+        FindAllLeaves(geometry, this.rootNode, ref foundLeaves);
+
+        foreach(var leaf in foundLeaves) {
+            //if (leaf.containsGeometry(geometry)
+        }
+
+        foundLeaves.ForEach(d => d.containsGeometry(geometry));
+
+        Console.WriteLine($"Finished! Found ${foundLeaves.Count} leaves");
+
+
+        // find any bbox that intersects this geometry
+        return geometry;
+    }
+
 
     private bool recursive = false;
 

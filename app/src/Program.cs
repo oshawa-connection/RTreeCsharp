@@ -11,11 +11,13 @@ namespace app
         {
 
 
-            SpeedTest(100,true);
+            //SpeedTest(100,true);
             //SpeedTest(10000);
             //SpeedTest(20000);
         }
 
+
+        
 
         static void SpeedTest(int maxNodes,bool dump = false)
         {

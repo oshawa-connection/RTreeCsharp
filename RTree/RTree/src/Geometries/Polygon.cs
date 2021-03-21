@@ -25,4 +25,9 @@ public class Polygon : Geometry {
         // ensure closed
         this.vertices = vertices;
     }
+
+    public Polygon()
+    {
+
+    }
 }

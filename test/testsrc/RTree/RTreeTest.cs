@@ -52,7 +52,15 @@ namespace test.testsrc.RTreeTest
             Assert.IsNull(found);
         }
 
+        [TestMethod]
+        public void TestNearestNeighbour()
+        {
+            var rTree = new RTree<Point>();
+            var pointToFind = new Point(1, 2);
+            rTree.Insert(pointToFind);
+            rTree.NearestNeighbour(pointToFind);
+            Assert.AreEqual(1, 1);
+        }
 
-        
     }
 }
