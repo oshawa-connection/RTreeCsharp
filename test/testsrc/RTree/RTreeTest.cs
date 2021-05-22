@@ -18,9 +18,9 @@ namespace test.testsrc.RTreeTest
             var point2ToInsert = new Point(-100, -100);
             rTree.Insert(pointToInsert);
             rTree.Insert(point2ToInsert);
-            var foundNode = rTree.Find(pointToInsert);
+            var foundNode = rTree.FindBestNode(pointToInsert);
 
-            var found2Node = rTree.Find(point2ToInsert);
+            var found2Node = rTree.FindBestNode(point2ToInsert);
 
 
             Assert.IsNotNull(foundNode);
@@ -48,7 +48,7 @@ namespace test.testsrc.RTreeTest
         {
             var rTree = new RTree<Point>();
             var pointToFind = new Point(1, 2);
-            Node<Point> found = rTree.Find(pointToFind);
+            Node<Point> found = rTree.FindNodeContainingGeometry(pointToFind);
             Assert.IsNull(found);
         }
 

@@ -10,7 +10,24 @@ public class RTree<T> where T : Geometry, new()
     [JsonProperty]
     public readonly int maxPointsPerNode;
 
-    public Node<T> Find(T geometry, bool insert = false) {
+    public Node<T> FindNodeContainingGeometry(T geometry) {
+        Node<T> currentNode = null;
+        var foundNode = this.rootNode.NextNode(geometry);
+        while(foundNode != null) {
+            currentNode = foundNode;
+            foundNode = foundNode.NextNode(geometry);
+        }
+        
+        if (currentNode.containsGeometry(geometry)) {
+            return currentNode;
+        } else {
+            return null;
+        }
+    }
+
+    ///TODO: Split this method somehow
+    ///
+    public Node<T> FindBestNode(T geometry, bool insert = false) {
         
         Node<T> currentNode = null;
         var foundNode = this.rootNode.NextNode(geometry);
@@ -21,6 +38,7 @@ public class RTree<T> where T : Geometry, new()
         }
         
         return currentNode;
+
     }
 
     private void FindAllLeaves(T geometry, Node<T> currentNode, ref List<Node<T>> foundLeaves)
@@ -72,7 +90,7 @@ public class RTree<T> where T : Geometry, new()
     private bool recursive = false;
 
     public void Insert(T geometry) {
-       var foundNode = this.Find(geometry, true);
+       var foundNode = this.FindBestNode(geometry, true);
 
       
        if (foundNode.containsGeometry(geometry)) {

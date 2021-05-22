@@ -9,7 +9,7 @@ namespace app
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine("HELLO WORLD");
 
             //SpeedTest(100,true);
             //SpeedTest(10000);
@@ -42,7 +42,7 @@ namespace app
 
             for(var searchId = 0; searchId < points.Length; searchId ++)
             {
-                var x = rTree.Find(points[searchId]);
+                var x = rTree.FindBestNode(points[searchId]);
                 if (x.depth > 100000000)
                 {
                     throw new Exception("here to prevent optimisation");
