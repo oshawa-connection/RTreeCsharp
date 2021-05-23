@@ -92,12 +92,24 @@ public class Node<T> where T : Geometry, new()
         this.childNodes.Add(node);
     }
 
+    private (float,float) calculatedMedianXAndY() {
+        int count  = this.geometries.Count();
+        var orderedByX = geometries.OrderBy(p => p.calculateBoundingBox().minX).Select(d => d.calculateBoundingBox().minX);
+        float medianX = orderedByX.ElementAt(count/2) + orderedByX.ElementAt((count-1)/2);
+        medianX /= 2;
+        var orderedByY = geometries.OrderBy(p => p.calculateBoundingBox().minY).Select(d => d.calculateBoundingBox().minY);
+        float medianY = orderedByY.ElementAt(count/2) + orderedByY.ElementAt((count-1)/2);
+        medianY /= 2;
+
+        return (medianX,medianY);
+    }
+
     public void splitNode() {
         var leftNode = new Node<T>(this.depth + 1);
         var rightNode = new Node<T>(this.depth + 1);
         //TODO: should choose new halfX or halfY in order to split equally the number of points in each node
-        
-        (BBox leftbbox, BBox rightbbox) = this.bbox.split();
+        (float xSplit, float ySplit) = this.calculatedMedianXAndY();
+        (BBox leftbbox, BBox rightbbox) = this.bbox.split(xSplit,ySplit);
         leftNode.bbox = leftbbox;
         rightNode.bbox = rightbbox;
         

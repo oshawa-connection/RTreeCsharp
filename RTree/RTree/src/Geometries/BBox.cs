@@ -73,24 +73,19 @@ public class BBox {
         return otherBBox.calculateArea() - currentArea;
     }
 
-    public (BBox,BBox) split() {
+    public (BBox,BBox) split(float splitX, float splitY) {
         var leftbbox = new BBox();
         var rightbbox = new BBox();
 
-
-        float halfX = (this.maxX - this.minX)/2.0f  + this.minX;
-        // float halfY = (this.maxY - this.minY)/2.0f;
-
-
         leftbbox.minX = minX;
-        leftbbox.maxX = halfX;
-        leftbbox.maxY = maxY;
+        leftbbox.maxX = splitX;
+        leftbbox.maxY = splitY;
         leftbbox.minY = minY;
 
-        rightbbox.minX = halfX;
+        rightbbox.minX = splitX;
         rightbbox.maxX = maxX;
         rightbbox.maxY = maxY;
-        rightbbox.minY = minY;
+        rightbbox.minY = splitY;
 
         return (leftbbox,rightbbox);
     }

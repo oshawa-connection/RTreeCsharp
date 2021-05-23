@@ -50,11 +50,11 @@ namespace test
 
             var newPoint = new Point(4.0f,4.0f);
 
-            (BBox left, BBox right) = bbox.split();
+            (BBox left, BBox right) = bbox.split(2,2);
 
             Assert.AreEqual(bbox.minX,left.minX);
 
-            Assert.AreEqual((3.0f- 1.0f)/ 2.0f + 1.0f,left.maxX);
+            Assert.AreEqual(2,left.maxX);
             Assert.AreEqual(right.minX, left.maxX);
         }
 
