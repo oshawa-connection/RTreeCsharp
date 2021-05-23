@@ -92,23 +92,23 @@ public class RTree<T> where T : Geometry, new()
     public void Insert(T geometry) {
        var foundNode = this.FindBestNode(geometry, true);
 
-      
-       if (foundNode.containsGeometry(geometry)) {
-           return;
-       }
+        // Don't allow duplicates
+        if (foundNode.containsGeometry(geometry)) {
+            return;
+        }
 
-       if (foundNode.numberOfGeometries() >= this.maxPointsPerNode) {
+        if (foundNode.numberOfGeometries() >= this.maxPointsPerNode) {
             if (this.recursive)
             {
                 throw new Exception("Entering infinite loop, exiting");
             }
             foundNode.splitNode();
             this.recursive = true;
-           this.Insert(geometry);
+            this.Insert(geometry);
            
-       } else {
-           foundNode.addGeometry(geometry);
-       }
+        } else {
+            foundNode.addGeometry(geometry);
+        }
         this.recursive = false;
     }
 

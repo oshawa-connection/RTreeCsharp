@@ -29,6 +29,26 @@ namespace test.testsrc.RTreeTest
             
         }
 
+        [TestMethod]
+        public void TestCanInsertMultiple()
+        {
+            const int maxNodes = 100;
+            var rTree = new RTree<Point>();
+            var points = new Point[maxNodes];
+
+            for (var x = 0; x < maxNodes; x++)
+            {
+                
+                var newPoint = new Point(x, x);
+                rTree.Insert(newPoint);
+                points[x] = newPoint;
+            }
+
+            var foundNode = rTree.FindNodeContainingGeometry(points[0]);
+            Assert.IsTrue(foundNode.containsGeometry(points[0]));
+            Console.WriteLine(foundNode.depth);
+        }
+
 
         [TestMethod]
         public void TestSplits()

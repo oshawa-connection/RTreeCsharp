@@ -10,7 +10,7 @@ namespace app
         static void Main(string[] args)
         {
             Console.WriteLine("HELLO WORLD");
-
+            
             //SpeedTest(100,true);
             //SpeedTest(10000);
             //SpeedTest(20000);
