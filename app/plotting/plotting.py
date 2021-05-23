@@ -3,11 +3,21 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import sys
 import os
+from random import uniform
+
 try:
 	fileName = sys.argv[1]
-except IndexError:
+except:
 	print("You must specify a file path")
-	
+	sys.exit(1)
+
+try:
+    depth = sys.argv[2]
+except:
+    depth = None
+    pass
+
+		
 if not os.path.exists(fileName):
 	raise ValueError("File does not exist")
 	
@@ -23,7 +33,9 @@ fig, ax = plt.subplots()
 def plot(object):
 	print("plotting bbox")
 	bbox = object['bbox']
-	plotBBox(bbox['minX'],bbox['minY'],bbox['maxX'],bbox['maxY'])
+	if (depth == None or object['depth'] == int(depth)):
+		plotBBox(bbox['minX'],bbox['minY'],bbox['maxX'],bbox['maxY'])
+
 	if (object['childNodes'] != []):
 		for object in object['childNodes']:
 			plot(object)
@@ -41,7 +53,7 @@ def plot(object):
 		
 		
 def plotBBox(minX,minY,maxX,maxY):
-	rect = patches.Rectangle((minX, minY), maxX - minX, maxY - minY, linewidth=1, edgecolor='r', facecolor='none')
+	rect = patches.Rectangle((minX, minY), maxX - minX, maxY - minY, linewidth=1, edgecolor=(uniform(0, 1), uniform(0, 1), uniform(0, 1)), facecolor='none')
 	ax.add_patch(rect)
 	
 plot(rootNode)

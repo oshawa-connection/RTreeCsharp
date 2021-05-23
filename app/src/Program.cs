@@ -10,8 +10,8 @@ namespace app
         static void Main(string[] args)
         {
             Console.WriteLine("HELLO WORLD");
-            
-            //SpeedTest(100,true);
+            // var rTree = new RTree<Point>();
+            SpeedTest(60,true);
             //SpeedTest(10000);
             //SpeedTest(20000);
         }
@@ -28,11 +28,10 @@ namespace app
 
             var points = new Point[maxNodes];
 
-            float y = 10.0f;
+            
             for (var x = 0; x < maxNodes; x++)
-            {
-                y = rand.Next(0, 10);
-                var newPoint = new Point(x, y);
+            {                
+                var newPoint = new Point((float)rand.NextDouble(), (float)rand.NextDouble());
                 rTree.Insert(newPoint);
                 points[x] = newPoint;
             }
